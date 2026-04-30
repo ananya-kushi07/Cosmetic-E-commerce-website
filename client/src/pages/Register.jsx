@@ -1,6 +1,39 @@
 import Navbar from "../components/Navbar";
+import axios from "axios";
+import { useState } from "react";
 
 function Register() {
+
+  const [formData, setFormData] = useState({
+
+    name: "",
+    email: "",
+    password: "",
+    role: "customer"
+
+  });
+
+  const handleChange = (e) => {
+
+    setFormData({
+
+      ...formData,
+      [e.target.name]: e.target.value
+
+    });
+
+  };
+
+  const handleSubmit = async () => {
+
+    await axios.post(
+      "http://localhost:5000/api/auth/register",
+      formData
+    );
+
+    alert("Registered Successfully");
+
+  };
 
   return (
 
@@ -19,22 +52,47 @@ function Register() {
           <input
             type="text"
             placeholder="Name"
+            name="name"
+            onChange={handleChange}
             className="w-full border p-3 mb-4 rounded"
           />
 
           <input
             type="email"
             placeholder="Email"
+            name="email"
+            onChange={handleChange}
             className="w-full border p-3 mb-4 rounded"
           />
 
           <input
             type="password"
             placeholder="Password"
+            name="password"
+            onChange={handleChange}
             className="w-full border p-3 mb-4 rounded"
           />
 
-          <button className="bg-pink-500 text-white w-full py-3 rounded">
+          <select
+            name="role"
+            onChange={handleChange}
+            className="w-full border p-3 mb-4 rounded"
+          >
+
+            <option value="customer">
+              Customer
+            </option>
+
+            <option value="vendor">
+              Vendor
+            </option>
+
+          </select>
+
+          <button
+            onClick={handleSubmit}
+            className="bg-pink-500 text-white w-full py-3 rounded"
+          >
             Register
           </button>
 
